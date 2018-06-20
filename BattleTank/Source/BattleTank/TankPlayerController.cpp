@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
+#include "Public/Tank.h"
 
 // Called every frame
 void ATankPlayerController::Tick(float DeltaTime)

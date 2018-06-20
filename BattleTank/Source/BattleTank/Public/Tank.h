@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
-#include "TankAimingComponent.h"
 #include "Tank.generated.h"
 
-class UTankBarrel; // Forward Declaration
+// Forward Declarations
+class UTankBarrel;
+class UTankAimingComponent; 
 
 UCLASS()
 class BATTLETANK_API ATank : public APawn
@@ -31,9 +32,7 @@ protected:
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
 private:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
+	
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
