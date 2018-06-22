@@ -7,7 +7,6 @@
 #include "Components/StaticMeshComponent.h"
 #include "Classes/Kismet/GameplayStatics.h"
 #include "TankBarrel.h"
-#include "Engine/World.h" // TODO only included for Time log, remove when done
 #include "TankTurret.h"
 
 
@@ -58,11 +57,6 @@ void UTankAimingComponent::AimAt(FVector HitLocation, float LaunchSpeed)
 		MoveBarrelTowards(AimDirection);
 		MoveTurretTowards(AimDirection);
 			
-	
-	}
-	// If no solution found do nothing
-	else
-	{
 	
 	}
 }
