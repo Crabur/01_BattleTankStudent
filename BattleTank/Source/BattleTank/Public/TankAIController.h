@@ -23,5 +23,9 @@ public:
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+private:
+
+	float AITankRange = 3000; // How close the AI tank can get to the player, in cm.
 	
 };
