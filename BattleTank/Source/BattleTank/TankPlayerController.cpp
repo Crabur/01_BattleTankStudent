@@ -7,30 +7,17 @@
 #include "GameFramework/PlayerController.h"
 #include "Public/Tank.h"
 
+
+void ATankPlayerController::BeginPlay()
+{
+	Super::BeginPlay();
+}
+
 // Called every frame
 void ATankPlayerController::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	AimTowardCrosshair();
-}
-
-
-void ATankPlayerController::BeginPlay()
-{
-	Super::BeginPlay();
-
-	auto ControlledTank = GetControlledTank();
-	if (!ControlledTank)
-	{
-	
-	}
-	else
-	{
-		
-
-
-
-	}
 }
 
 ATank* ATankPlayerController::GetControlledTank() const
