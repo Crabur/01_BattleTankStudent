@@ -23,8 +23,8 @@ void ATankAIController::Tick(float DeltaTime)
 		MoveToActor(PlayerTank, AITankRange);
 		// Aim towards the player
 		ControlledTank->AimAt(PlayerTank->GetActorLocation());
-		
-		ControlledTank->Fire(); 
+		// TODO TURN BACK ON
+		// ControlledTank->Fire(); 
 	}
 }
 
