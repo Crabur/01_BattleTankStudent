@@ -15,6 +15,17 @@ ATank::ATank()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
+
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s Saguaro: Tank C++ Construct"), *TankName);
+}
+
+void ATank::BeginPlay()
+{
+	Super::BeginPlay(); // Needed for BP to BeginPlay!
+	auto TankName = GetName();
+	UE_LOG(LogTemp, Warning, TEXT("%s Saguaro: Tank C++ BeginPlay"), *TankName);
+
 }
 
 void ATank::AimAt(FVector HitLocation)
@@ -45,9 +56,5 @@ void ATank::Fire()
 		Projectile->LaunchProjectile(SetLaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
 	}
-
 	
-
-
-
 }

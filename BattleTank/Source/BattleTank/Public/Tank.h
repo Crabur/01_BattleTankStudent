@@ -44,6 +44,8 @@ private:
 	// Sets default values for this pawn's properties
 	ATank();
 
+	virtual void BeginPlay() override;
+
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float SetLaunchSpeed = 4000; // TODO find sensible default
 

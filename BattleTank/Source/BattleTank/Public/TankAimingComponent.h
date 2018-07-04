@@ -44,6 +44,6 @@ private:
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Enum")
-	EFiringStatus FiringStatus = EFiringStatus::Aiming;
+	EFiringStatus FiringStatus = EFiringStatus::Locked;
 			
 };

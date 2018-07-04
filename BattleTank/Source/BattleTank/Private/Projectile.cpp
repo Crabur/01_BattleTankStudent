@@ -1,7 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "Projectile.h"
-#include "Engine/World.h" // TODO Only include for UE_LOG, remove when done
 
 
 // Sets default values
