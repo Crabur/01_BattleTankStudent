@@ -7,7 +7,6 @@
 #include "TankAIController.generated.h"
 
 // Forward Declaration
-class ATank;
 
 /**
  * 
@@ -26,6 +25,6 @@ public:
 
 private:
 
-	float AITankRange = 3000; // How close the AI tank can get to the player, in cm.
-	
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float AcceptanceRadius = 2000; // How close the AI tank can get to the player, in cm.
 };
