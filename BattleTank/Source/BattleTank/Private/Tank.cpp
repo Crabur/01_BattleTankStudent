@@ -1,10 +1,6 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "Public/Tank.h"
-#include "Engine/World.h"
-#include "GameFramework/Character.h"
-
-
+#include "Tank.h"
 
 // Sets default values
 ATank::ATank()
@@ -13,7 +9,3 @@ ATank::ATank()
 	PrimaryActorTick.bCanEverTick = false;
 }
 
-void ATank::BeginPlay()
-{
-	Super::BeginPlay(); // Needed for BP to BeginPlay!
-}

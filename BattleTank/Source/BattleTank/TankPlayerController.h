@@ -22,14 +22,13 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
 	void FoundAimingComponent(UTankAimingComponent* AimCompRef);
 
-public:
+private:
+
 
 	virtual void BeginPlay() override;
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-private:
 
 	// Start the tank  moving the barrel towards the crosshair would hit where the crosshair is aiming
 	void AimTowardCrosshair();
@@ -40,10 +39,10 @@ private:
 	FVector HitLocation; // OUT parameter
 
 	UPROPERTY(EditDefaultsOnly)
-	float CrossHairXLocation = (0.5f);
+	float CrossHairXLocation = 0.5;
 
 	UPROPERTY(EditDefaultsOnly)
-	float CrossHairYLocation = (0.333333f);
+	float CrossHairYLocation = 0.3333;
 	
 	UPROPERTY(EditDefaultsOnly)
 	float LineTraceRange = 1000000;

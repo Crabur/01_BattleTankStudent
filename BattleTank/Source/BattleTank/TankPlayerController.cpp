@@ -1,25 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
-#include "TankPlayerController.h"
+
 #include "BattleTank.h"
 #include "GameFramework/Actor.h"
 #include "Engine/World.h"
 #include "GameFramework/PlayerController.h"
 #include "TankAimingComponent.h"
+#include "TankPlayerController.h"
 
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
-	if (ensure(AimingComponent))
-	{
-		FoundAimingComponent(AimingComponent);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("Player controller can't find aiming component at BeginPlay"))
-	}
+	if (!ensure(AimingComponent)) { return; }
+	FoundAimingComponent(AimingComponent);
+	
 }
 
 // Called every frame
@@ -40,7 +36,7 @@ void ATankPlayerController::AimTowardCrosshair()
 	{
 		AimingComponent->AimAt(HitLocation);
 	}
-	}
+}
 
 // Get world location of linetrace through crosshair, true if hits landscape
 bool ATankPlayerController::GetSightRayHitLocation(FVector& HitLocation) const

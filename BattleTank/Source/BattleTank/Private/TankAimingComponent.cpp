@@ -1,15 +1,19 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "TankAimingComponent.h"
 #include "BattleTank.h"
+// IWYU
 #include "GameFramework/Actor.h"
 #include "Components/StaticMeshComponent.h"
 #include "Classes/Kismet/GameplayStatics.h"
 #include "Engine/World.h"
+// Project
 #include "TankBarrel.h"
 #include "TankTurret.h"
 #include "Projectile.h"
+#include "TankAimingComponent.h"
+
+
 
 
 
@@ -18,15 +22,50 @@ UTankAimingComponent::UTankAimingComponent()
 {
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = false; // TODO should this tick?
+	bWantsBeginPlay = true;
+	PrimaryComponentTick.bCanEverTick = true; // TODO should this tick?
 
 	// ...
+}
+
+void UTankAimingComponent::BeginPlay()
+{
+	Super::BeginPlay();
+	// creates an initial reload so no one is firing immediately upon launch of the game
+	LastFireTime = FPlatformTime::Seconds();
 }
 
 void UTankAimingComponent::Initialize(UTankBarrel* BarrelToSet, UTankTurret* TurretToSet)
 {
 	Barrel = BarrelToSet;
 	Turret = TurretToSet;
+}
+
+void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
+{
+	UE_LOG(LogTemp, Warning, TEXT("SAGUARO: Ticking"));
+	if ((FPlatformTime::Seconds() - LastFireTime) < ReloadTimeInSeconds)
+	{
+		FiringState = EFiringState::Reloading;
+		UE_LOG(LogTemp, Warning, TEXT("SAGUARO: Fire = Reloading"));
+	}
+	else if (IsBarrelMoving())
+	{
+		FiringState = EFiringState::Aiming;
+		UE_LOG(LogTemp, Warning, TEXT("SAGUARO: Fire = Aiming"));
+	}
+	else
+	{
+		FiringState = EFiringState::Locked;
+		UE_LOG(LogTemp, Warning, TEXT("SAGUARO: Fire = Locked"));
+	}
+}
+
+bool UTankAimingComponent::IsBarrelMoving()
+{
+	if (!ensure(Barrel)) { return false; }
+	auto BarrelForward = Barrel->GetForwardVector();
+	return !BarrelForward.Equals(AimDirection, 0.01); // vectors are equal
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
@@ -50,16 +89,14 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 	);
 	if (bHaveAimSolution)
 	{
-		auto AimDirection = OutLaunchVelocity.GetSafeNormal();
-		auto TankName = GetOwner()->GetName();
-		MoveBarrelTowards(AimDirection);
-		MoveTurretTowards(AimDirection);			
+		AimDirection = OutLaunchVelocity.GetSafeNormal();
+		MoveBarrelTowards(AimDirection);		
 	}
 }
 
 void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 {
-	if (!ensure(Barrel && Turret)) { return; }
+	if (!ensure(Barrel) || !ensure(Turret)) { return; }
 	/// Work-out the difference between current barrel rotation, and AimDirection
 	auto BarrelRotator = Barrel->GetForwardVector().Rotation();
 	auto AimAsRotator = AimDirection.Rotation();
@@ -67,34 +104,25 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 	
 
 	Barrel->Elevate(DeltaRotator.Pitch); 
-}
-
-void UTankAimingComponent::MoveTurretTowards(FVector AimDirection)
-{
-	/// Work-out the difference between current turret rotation, and AimDirection
-	auto TurretRotator = Turret->GetForwardVector().Rotation();
-	auto AimAsRotator = AimDirection.Rotation();
-	auto DeltaRotator = AimAsRotator - TurretRotator;
-
-	Turret->Rotate(DeltaRotator.Yaw); 
+	Turret->Rotate(DeltaRotator.Yaw);
 }
 
 void UTankAimingComponent::Fire()
 {
-	if (!ensure(Barrel)) { return; }
-	bool isReloaded = (FPlatformTime::Seconds() - LastFireTime) > ReloadTimeInSeconds;
-
-	if (isReloaded)
+	
+	if (FiringState != EFiringState::Reloading)
 	{
-
+		
 		// Spawn a projectile at the socket location on the barrel
+		if (!ensure(Barrel)) { return; }
+		if (!ensure(ProjectileBlueprint)) { return; }
 		auto Projectile = GetWorld()->SpawnActor<AProjectile>(
 			ProjectileBlueprint,
 			Barrel->GetSocketLocation(FName("Projectile")),
 			Barrel->GetSocketRotation(FName("Projectile"))
 			);
+
 		Projectile->LaunchProjectile(LaunchSpeed);
 		LastFireTime = FPlatformTime::Seconds();
 	}
-
 }
