@@ -17,8 +17,10 @@ enum class EFiringState : uint8
 {
 	Reloading,
 	Aiming,
-	Locked
+	Locked,
+	OutOfAmmo
 };
+
 
 // Holds barrel's properties
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -36,10 +38,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Firing")
 	void Fire();
 
+	EFiringState GetFiringState() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Firing")
+	int GetRoundsLeft() const;
+
 protected:
 	
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::Reloading;
+
+
 	
 private:
 	// Sets default values for this component's properties
@@ -66,4 +75,6 @@ private:
 	TSubclassOf<AProjectile> ProjectileBlueprint;
 
 	FVector AimDirection;
+
+	int RoundsLeft = 3;
 };

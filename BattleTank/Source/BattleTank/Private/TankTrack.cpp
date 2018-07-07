@@ -41,8 +41,8 @@ void UTankTrack::ApplySidewaysForce()
 void UTankTrack::SetThrottle(float Throttle)
 {	
 	// TODO Clamp actual throttle value so player can't edit.
-	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle, -1, 1);
-	
+	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle,-1,1);
+	// CurrentThrottle = Throttle;
 }
 
 void UTankTrack::DriveTrack()
