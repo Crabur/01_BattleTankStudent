@@ -64,8 +64,9 @@ void UTankAimingComponent::TickComponent(float DeltaTime, enum ELevelTick TickTy
 
 EFiringState UTankAimingComponent::GetFiringState() const
 {
-	return EFiringState();
+	return FiringState;
 }
+
 
 int UTankAimingComponent::GetRoundsLeft() const
 {
@@ -76,7 +77,7 @@ bool UTankAimingComponent::IsBarrelMoving()
 {
 	if (!ensure(Barrel)) { return false; }
 	auto BarrelForward = Barrel->GetForwardVector();
-	return !BarrelForward.Equals(AimDirection, 0.01); // vectors are equal
+	return !BarrelForward.Equals(AimDirection, 0.05); // vectors are equal
 }
 
 void UTankAimingComponent::AimAt(FVector HitLocation)
@@ -129,7 +130,7 @@ void UTankAimingComponent::MoveBarrelTowards(FVector AimDirection)
 void UTankAimingComponent::Fire()
 {
 	if (RoundsLeft == 0) { return; }
-	if (FiringState != EFiringState::Reloading)
+	if (FiringState == EFiringState::Locked || FiringState == EFiringState::Aiming)
 	{
 
 		// Spawn a projectile at the socket location on the barrel
