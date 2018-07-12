@@ -94,7 +94,7 @@ void UTankAimingComponent::AimAt(FVector HitLocation)
 		StartLocation,
 		HitLocation,
 		LaunchSpeed,
-		false,
+		bIsMortar,
 		0,
 		0,
 		ESuggestProjVelocityTraceOption::DoNotTrace // Parameter must be present to prevent bug

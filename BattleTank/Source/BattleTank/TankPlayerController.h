@@ -30,6 +30,11 @@ private:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	virtual void SetPawn(APawn* InPawn) override;
+
+	UFUNCTION()
+	void OnPlayerTankDeath();
+
 	// Start the tank  moving the barrel towards the crosshair would hit where the crosshair is aiming
 	void AimTowardCrosshair();
 	

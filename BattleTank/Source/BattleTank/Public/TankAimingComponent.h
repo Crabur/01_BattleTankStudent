@@ -78,4 +78,7 @@ private:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	int32 RoundsLeft = 20;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	bool bIsMortar = false; // if the AI is in a mortar, then it will use the high arc in AimAt()
 };
