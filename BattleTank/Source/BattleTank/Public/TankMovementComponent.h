@@ -26,7 +26,9 @@ public:
 	void IntendTurnRight(float Throw);
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void IntendTurnLeft(float Throw);
-
+	UFUNCTION(BlueprintCallable, Category = "Input")
+	void IntendMoveBackward(float Throw);
+	
 
 
 	

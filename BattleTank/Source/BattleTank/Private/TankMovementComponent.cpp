@@ -27,7 +27,15 @@ void UTankMovementComponent::IntendMoveForward(float Throw)
 	if (!ensure(LeftTrack && RightTrack)) { return; }
 	LeftTrack->SetThrottle(Throw);
 	RightTrack->SetThrottle(Throw);
-	// TODO prevent double speed due to double control usage, i.e MoveForward + Individual track control
+	
+}
+
+void UTankMovementComponent::IntendMoveBackward(float Throw)
+{
+	if (!ensure(LeftTrack && RightTrack)) { return; }
+	LeftTrack->SetThrottle(-Throw);
+	RightTrack->SetThrottle(-Throw);
+
 }
 
 void UTankMovementComponent::IntendTurnRight(float Throw)
